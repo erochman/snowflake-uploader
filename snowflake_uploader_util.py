@@ -42,7 +42,7 @@ file_to_uploads = csv_files
 
 for file_to_upload in file_to_uploads:
     try:
-        session.file.put(f"upload/{file_to_upload}", stages)
+        session.file.put(f"upload/{file_to_upload}", stages, overwrite = True)
         print(f'success to upload {file_to_upload}')
         time.sleep(1)
         source_path = os.path.join('upload', file_to_upload)
