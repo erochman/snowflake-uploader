@@ -14,6 +14,7 @@ logger.setLevel(logging.ERROR)
 import os
 import shutil
 import time
+from datetime import datetime
 
 # Create Snowflake Session object
 connection_parameters = json.load(open('connection.json'))
@@ -46,6 +47,17 @@ for file_to_upload in file_to_uploads:
         time.sleep(1)
         source_path = os.path.join('upload', file_to_upload)
         destination_path = os.path.join('done upload', file_to_upload)
+
+        if os.path.exists(destination_path):
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            
+            # Get the base name and extension of the source file
+            base_name, ext = os.path.splitext(os.path.basename(source_path))
+            
+            # Create a new filename with the timestamp
+            new_destination_name = f"{base_name}_{timestamp}{ext}"
+            destination_path = os.path.join('done upload', new_destination_name)
+
         shutil.move(source_path, destination_path)
         print(f'success to move {file_to_upload}')
     except:
